@@ -1,6 +1,8 @@
 <script lang="ts">
+  // @ts-ignore
+  import { enableGeoTIFFTileSource } from "geotiff-tilesource";
   import { Maximize2, Minimize2, Minus, Plus, RotateCw } from "lucide-svelte";
-  import { Viewer } from "openseadragon";
+  import OpenSeadragon, { Viewer } from "openseadragon";
   import { onMount } from "svelte";
 
   let { imageUrl } = $props();
@@ -16,17 +18,26 @@
 
   let isFullPage = $state(false);
 
-  onMount(() => {
+  onMount(async () => {
     if (!imageUrl) {
       return;
     }
 
-    viewer = new Viewer({
-      element: container,
-      tileSources: {
+    // Enable TIFF support via geotiff-tilesource
+    let tileSources: any;
+    if (imageUrl.toLowerCase().endsWith(".tif") || imageUrl.toLowerCase().endsWith(".tiff")) {
+      enableGeoTIFFTileSource(OpenSeadragon);
+      tileSources = await (OpenSeadragon as any).GeoTIFFTileSource.getAllTileSources(imageUrl);
+    } else {
+      tileSources = {
         type: "image",
         url: imageUrl
-      },
+      };
+    }
+
+    viewer = new Viewer({
+      element: container,
+      tileSources: tileSources,
       maxZoomLevel: 2.5,
       minZoomLevel: 0.25,
       showHomeControl: false,
