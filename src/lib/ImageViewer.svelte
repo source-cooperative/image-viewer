@@ -25,7 +25,8 @@
 
     // Enable TIFF support via geotiff-tilesource
     let tileSources: any;
-    if (imageUrl.toLowerCase().endsWith(".tif") || imageUrl.toLowerCase().endsWith(".tiff")) {
+    const imageUrlFilename = new URL(imageUrl).pathname.split("/").pop()?.toLowerCase();
+    if (imageUrlFilename?.endsWith(".tif") || imageUrlFilename?.endsWith(".tiff")) {
       enableGeoTIFFTileSource(OpenSeadragon);
       tileSources = await (OpenSeadragon as any).GeoTIFFTileSource.getAllTileSources(imageUrl);
     } else {
