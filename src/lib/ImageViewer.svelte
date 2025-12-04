@@ -1,33 +1,80 @@
 <script lang="ts">
-  import OpenSeadragon from "openseadragon";
-  import type { Viewer } from "openseadragon";
-  import { onMount, onDestroy } from "svelte";
+  import { Maximize2, Minimize2, Minus, Plus, RotateCw } from "lucide-svelte";
+  import { Viewer } from "openseadragon";
+  import { onMount } from "svelte";
 
   let { imageUrl } = $props();
 
-  let element: HTMLDivElement;
+  let container: HTMLElement;
   let viewer: Viewer;
+  let toolbar: HTMLElement;
+  let zoomInButton: HTMLButtonElement;
+  let zoomOutButton: HTMLButtonElement;
+  let rotateRightButton: HTMLButtonElement;
+  let rotateLeftButton: HTMLButtonElement;
+  let fullPageButton: HTMLButtonElement;
+
+  let isFullPage = $state(false);
 
   onMount(() => {
     if (!imageUrl) {
       return;
     }
 
-    viewer = OpenSeadragon({
-      element: element,
+    viewer = new Viewer({
+      element: container,
       tileSources: {
         type: "image",
         url: imageUrl
       },
       maxZoomLevel: 2.5,
       minZoomLevel: 0.25,
-      prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/5.0.1/images/"
+      showHomeControl: false,
+      showRotationControl: true,
+
+      // Custom bindings
+      toolbar: toolbar,
+      zoomInButton: zoomInButton,
+      zoomOutButton: zoomOutButton,
+      rotateLeftButton: rotateLeftButton,
+      rotateRightButton: rotateRightButton,
+      fullPageButton: fullPageButton
     });
+
+    viewer.addHandler("full-page", () => {
+      isFullPage = viewer.isFullPage();
+    });
+    isFullPage = viewer.isFullPage();
   });
 
-  onDestroy(() => {
-    viewer?.destroy();
-  });
+  const buttonClasses = `
+    bg-source-100 text-source-900 border-source-200
+    hover:bg-source-200 hover:border-source-300
+    dark:bg-source-900 dark:text-source-100 dark:border-source-800
+    dark:hover:bg-source-800 dark:hover:border-source-700
+    p-2 border-1
+  `.trim();
+  const iconSize = 24;
 </script>
 
-<div bind:this={element} class="absolute w-full h-full"></div>
+<div id="toolbar" bind:this={toolbar} class="absolute top-0 left-0 z-1 flex flex-col m-2 gap-1">
+  <button bind:this={zoomInButton} class={buttonClasses}>
+    <Plus size={iconSize} strokeWidth={2} />
+  </button>
+  <button bind:this={zoomOutButton} class={buttonClasses}>
+    <Minus size={iconSize} strokeWidth={2} />
+  </button>
+  <button bind:this={rotateRightButton} class={buttonClasses}>
+    <RotateCw size={iconSize} strokeWidth={2} />
+  </button>
+  <button bind:this={fullPageButton} class={buttonClasses}>
+    {#if isFullPage}
+      <Minimize2 size={iconSize} strokeWidth={2} />
+    {:else}
+      <Maximize2 size={iconSize} strokeWidth={2} />
+    {/if}
+  </button>
+  <button bind:this={rotateLeftButton} class="hidden" disabled aria-hidden="true"></button>
+</div>
+
+<div id="viewer" bind:this={container} class="absolute w-full h-full z-0"></div>

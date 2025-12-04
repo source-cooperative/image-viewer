@@ -1,1 +1,23 @@
 @import "tailwindcss";
+
+@theme {
+  --color-source-50: #eeeeee;
+  --color-source-100: #dfdfdf;
+  --color-source-200: #c4c4c4;
+  --color-source-300: #a8a8a8;
+  --color-source-400: #8e8e8e;
+  --color-source-500: #777777;
+  --color-source-600: #5e5e5e;
+  --color-source-700: #474747;
+  --color-source-800: #303030;
+  --color-source-900: #1b1b1b;
+  --color-source-950: #111111;
+}
+
+/* Override OpenSeadragon full-screen background */
+.fullpage {
+  @apply bg-source-900;
+}
+#toolbar.fullpage {
+  @apply bg-transparent;
+}
