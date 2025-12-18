@@ -42,7 +42,7 @@
       element: container,
       tileSources: tileSources,
       maxZoomLevel: 2.5,
-      minZoomLevel: 0.5,
+      minZoomLevel: 0.25,
       showHomeControl: false,
       showRotationControl: true,
 
