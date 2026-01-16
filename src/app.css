@@ -26,11 +26,3 @@
     @apply text-source-950 dark:text-source-50;
   }
 }
-
-/* Override OpenSeadragon full-screen background */
-.fullpage {
-  @apply bg-source-50 dark:bg-source-950;
-}
-#toolbar.fullpage {
-  @apply bg-transparent;
-}
