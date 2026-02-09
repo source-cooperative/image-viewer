@@ -45,6 +45,7 @@
     "@fontsource/ibm-plex-sans": "^5.2.8",
     "geotiff-tilesource": "^2.2.0",
     "lucide-svelte": "^0.555.0",
-    "openseadragon": "^5.0.1"
+    "openseadragon": "^5.0.1",
+    "pretty-bytes": "^7.1.0"
   }
 }
