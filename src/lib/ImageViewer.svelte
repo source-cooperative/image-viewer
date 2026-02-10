@@ -55,6 +55,9 @@
       fullPageButton: fullPageButton
     });
 
+    if (fullPageButton) {
+      fullPageButton.title = "Toggle full screen";
+    }
     viewer.addHandler("full-page", () => {
       isFullPage = viewer.isFullPage();
     });
