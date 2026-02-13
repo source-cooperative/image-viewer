@@ -1,8 +1,8 @@
 # image-viewer
 
-A simple web app to display a remote image file in a lightbox-style interface. Supported formats include JPEG, PNG, GIF, SVG, WebP, TIFF, AVIF, and BMP. Maximum allowed file size is 200 MB.
+A simple web app to display a remote image file in a lightbox-style interface. Supported formats include JPEG, PNG, GIF, SVG, WebP, AVIF, and BMP. Maximum allowed file size is 200 MB.
 
-Uses [OpenSeadragon](https://openseadragon.github.io) to display images, with TIFF support provided by way of the [GeoTIFFTileSource](https://github.com/pearcetm/GeoTIFFTileSource) plugin.
+Uses [OpenSeadragon](https://openseadragon.github.io) to display images.
 
 ## How to use
 
