@@ -1,6 +1,4 @@
 <script lang="ts">
-  // @ts-ignore
-  import { enableGeoTIFFTileSource } from "geotiff-tilesource";
   import { Maximize2, Minimize2, Minus, Plus, RotateCw } from "lucide-svelte";
   import OpenSeadragon, { Viewer } from "openseadragon";
   import { onMount } from "svelte";
@@ -25,22 +23,9 @@
       return;
     }
 
-    // Enable TIFF support via geotiff-tilesource
-    let tileSources: any;
-    const imageUrlFilename = new URL(imageUrl).pathname.split("/").pop()?.toLowerCase();
-    if (imageUrlFilename?.endsWith(".tif") || imageUrlFilename?.endsWith(".tiff")) {
-      enableGeoTIFFTileSource(OpenSeadragon);
-      tileSources = await (OpenSeadragon as any).GeoTIFFTileSource.getAllTileSources(imageUrl);
-    } else {
-      tileSources = {
-        type: "image",
-        url: imageUrl
-      };
-    }
-
     viewer = new Viewer({
       element: container,
-      tileSources: tileSources,
+      tileSources: { type: "image", url: imageUrl },
       maxZoomLevel: 2.5,
       minZoomLevel: 0.25,
       showHomeControl: false,
